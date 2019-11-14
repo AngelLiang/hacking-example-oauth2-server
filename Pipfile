@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+flask = "==1.0.2"
+flask-sqlalchemy = "*"
+flask-oauthlib = "==0.9.5"
+requests-oauthlib = "==1.0.0"
+oauthlib = "<3.0.0"
+python-dotenv = "*"
+
+[requires]
+python_version = "3.6"

@@ -1,9 +1,16 @@
+import os
 from flask import Flask, url_for, session, request, jsonify
 from flask_oauthlib.client import OAuth
+from flask_oauthlib.client import OAuthException
+
+from dotenv import load_dotenv
+dotenv_path = '.env'
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path, override=True)
 
 
-CLIENT_ID = 'GbRmKgbSMmlE2NlugMeFfQIba8hoVyBFsWS8Igsq'
-CLIENT_SECRET = 'BfP7jsN8dSsXjGLfTTPiEvarMJOpkZQ2Y7IVVee8X929LfolMV'
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
 
 app = Flask(__name__)
@@ -26,7 +33,7 @@ remote = oauth.remote_app(
 @app.route('/')
 def index():
     if 'remote_oauth' in session:
-        resp = remote.get('me')
+        resp = remote.get('me')  # 调用资源服务器的 api
         if resp.status >= 200 and resp.status <= 299:
             return jsonify(resp.data)
         return resp.data
@@ -39,12 +46,15 @@ def index():
 @app.route('/authorized')
 def authorized():
     resp = remote.authorized_response()
+    print(resp)
     if resp is None:
         return 'Access denied: reason=%s error=%s' % (
             request.args['error_reason'],
             request.args['error_description']
         )
-    print(resp)
+    elif isinstance(resp, OAuthException):
+        return 'message=%s data=%s' % resp.message, resp.data
+    # 把 access_token 放进 session
     session['remote_oauth'] = (resp['access_token'], '')
     return jsonify(oauth_token=resp['access_token'])
 

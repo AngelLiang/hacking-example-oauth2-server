@@ -234,6 +234,7 @@ def access_token():
 @app.route('/oauth/authorize', methods=['GET', 'POST'])
 @oauth.authorize_handler
 def authorize(*args, **kwargs):
+    """认证页面"""
     user = current_user()
     if not user:
         return redirect('/')
@@ -244,6 +245,7 @@ def authorize(*args, **kwargs):
         kwargs['user'] = user
         return render_template('authorize.html', **kwargs)
 
+    # POST
     confirm = request.form.get('confirm', 'no')
     return confirm == 'yes'
 
@@ -251,6 +253,7 @@ def authorize(*args, **kwargs):
 @app.route('/api/me')
 @oauth.require_oauth()
 def me():
+    """资源"""
     user = request.oauth.user
     return jsonify(username=user.username)
 
