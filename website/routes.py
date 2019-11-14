@@ -22,6 +22,7 @@ def home():
     if request.method == 'POST':
         username = request.form.get('username')
         user = User.query.filter_by(username=username).first()
+        # 创建一个帐号
         if not user:
             user = User(username=username)
             db.session.add(user)
@@ -30,6 +31,7 @@ def home():
         return redirect('/')
     user = current_user()
     if user:
+        # 获取该帐号的客户端
         clients = OAuth2Client.query.filter_by(user_id=user.id).all()
     else:
         clients = []
