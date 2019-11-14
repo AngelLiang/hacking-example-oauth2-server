@@ -33,11 +33,14 @@ remote = oauth.remote_app(
 @app.route('/')
 def index():
     if 'remote_oauth' in session:
-        resp = remote.get('me')  # 调用资源服务器的 api
+        # 调用资源服务器的 api
+        # base_url + 'me'
+        resp = remote.get('me')  
         if resp.status >= 200 and resp.status <= 299:
             return jsonify(resp.data)
         return resp.data
     next_url = request.args.get('next') or request.referrer or None
+    # 返回资源服务器的认证页面
     return remote.authorize(
         callback=url_for('authorized', next=next_url, _external=True)
     )
