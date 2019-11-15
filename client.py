@@ -23,10 +23,10 @@ remote = oauth.remote_app(
     consumer_key=CLIENT_ID,
     consumer_secret=CLIENT_SECRET,
     request_token_params={'scope': 'email'},
-    base_url='http://127.0.0.1:5000/api/',
+    base_url='http://127.0.0.1:5000/api/',  # 资源服务器url
     request_token_url=None,
-    access_token_url='http://127.0.0.1:5000/oauth/token',
-    authorize_url='http://127.0.0.1:5000/oauth/authorize'
+    access_token_url='http://127.0.0.1:5000/oauth/token',  # 认证服务器token
+    authorize_url='http://127.0.0.1:5000/oauth/authorize'  # 认证服务器认证页面
 )
 
 

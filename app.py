@@ -200,6 +200,9 @@ def load_token(access_token=None, refresh_token=None):
 
 @oauth.tokensetter
 def save_token(token, request, *args, **kwargs):
+    """
+    :param token: dict
+    """
     toks = Token.query.filter_by(
         client_id=request.client.client_id,
         user_id=request.user.id
