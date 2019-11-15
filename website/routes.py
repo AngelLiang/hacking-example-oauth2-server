@@ -65,6 +65,7 @@ def create_client():
 
 @bp.route('/oauth/authorize', methods=['GET', 'POST'])
 def authorize():
+    """"认证页面"""
     user = current_user()
     if request.method == 'GET':
         try:
